@@ -1,0 +1,166 @@
+<div class="min-h-screen flex items-center justify-center bg-beige p-6">
+  <div
+    class="w-full max-w-6xl bg-white rounded-large shadow-2xl overflow-hidden flex flex-col md:flex-row border border-beige-accent reveal-up active"
+  >
+    <!-- Left Side: Brand/Visual -->
+    <div
+      class="w-full md:w-1/2 bg-charcoal p-12 md:p-16 text-beige flex flex-col justify-between relative overflow-hidden min-h-[500px]"
+    >
+      <div class="relative z-10 space-y-8">
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 rounded-full bg-lime-green flex items-center justify-center font-black text-xl text-charcoal shadow-lg shadow-lime-green/20"
+          >
+            S
+          </div>
+          <span class="text-3xl font-black tracking-tighter text-beige">Saraha.</span>
+        </div>
+        <div class="space-y-4">
+          <h2 class="text-5xl font-black leading-tight tracking-tight reveal-up active">
+            Welcome back to the Network.
+          </h2>
+          <p class="text-beige/50 text-xl leading-relaxed max-w-sm">
+            Login to access your secure profile and reveal the voices that matter.
+          </p>
+        </div>
+      </div>
+
+      <div class="relative z-10 mt-12">
+        <div class="flex -space-x-4">
+          <div
+            class="w-12 h-12 rounded-full bg-lime-green border-2 border-charcoal shadow-lg"
+          ></div>
+          <div class="w-12 h-12 rounded-full bg-blue-400 border-2 border-charcoal shadow-lg"></div>
+          <div
+            class="w-12 h-12 rounded-full bg-purple-400 border-2 border-charcoal shadow-lg"
+          ></div>
+        </div>
+        <p class="mt-6 text-xs font-black text-beige/30 uppercase tracking-[3px]">
+          Global Anonymity System
+        </p>
+      </div>
+
+      <!-- Decor -->
+      <div
+        class="absolute top-0 right-0 w-96 h-96 bg-lime-green/10 rounded-full blur-[100px] -mr-48 -mt-48 animate-pulse"
+      ></div>
+      <div
+        class="absolute bottom-0 left-0 w-80 h-80 bg-white/5 rounded-full blur-[120px] -ml-40 -mb-40"
+      ></div>
+    </div>
+
+    <!-- Right Side: Form -->
+    <div class="w-full md:w-1/2 p-8 md:p-20 bg-white flex flex-col justify-center">
+      <div class="mb-12 reveal-up active">
+        <h3 class="text-4xl font-black text-charcoal mb-3 tracking-tight">System Login</h3>
+        <p class="text-gray-400 text-lg font-medium">Verify your credentials to continue.</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-8">
+        <!-- Email -->
+        <div class="reveal-up active" style="transition-delay: 100ms">
+          <label class="block text-xs font-black text-charcoal uppercase tracking-[2px] mb-3"
+            >Electronic Mail</label
+          >
+          <input
+            formControlName="email"
+            type="email"
+            class="input-field"
+            placeholder="your@identity.com"
+          />
+          <div
+            *ngIf="email?.invalid && email?.touched"
+            class="text-red-500 text-[11px] mt-2 font-black uppercase tracking-wider"
+          >
+            Requirement: Valid email address.
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="reveal-up active" style="transition-delay: 200ms">
+          <label class="block text-xs font-black text-charcoal uppercase tracking-[2px] mb-3"
+            >Security Key</label
+          >
+          <input
+            formControlName="password"
+            type="password"
+            class="input-field"
+            placeholder="••••••••"
+          />
+        </div>
+
+        <!-- Actions -->
+        <div
+          class="flex items-center justify-between pt-2 reveal-up active"
+          style="transition-delay: 300ms"
+        >
+          <label
+            class="flex items-center gap-3 text-sm font-bold text-gray-500 cursor-pointer group"
+          >
+            <input
+              type="checkbox"
+              class="w-5 h-5 rounded border-beige-accent text-charcoal focus:ring-lime-green/20"
+            />
+            <span class="group-hover:text-charcoal transition-colors">Remember Session</span>
+          </label>
+          <a
+            href="#"
+            class="text-sm font-black text-charcoal hover:text-lime-green transition-colors underline-offset-8 decoration-lime-green decoration-2 hover:underline"
+            >Reset Key?</a
+          >
+        </div>
+
+        <!-- Button -->
+        <div class="pt-6 reveal-up active" style="transition-delay: 400ms">
+          <button
+            type="submit"
+            [disabled]="loginForm.invalid || isLoading"
+            class="w-full btn btn-primary !py-5 text-lg"
+          >
+            <span *ngIf="!isLoading">Authorize Connection</span>
+            <span *ngIf="isLoading" class="flex items-center gap-3">
+              <svg class="animate-spin h-6 w-6 text-charcoal" viewBox="0 0 24 24">
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                  fill="none"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              Verifying...
+            </span>
+          </button>
+        </div>
+
+        <div
+          *ngIf="errorMessage"
+          class="p-5 bg-red-50 text-red-600 text-sm font-bold rounded-[0.4rem] border-l-4 border-red-500 flex items-center gap-4 reveal-up active"
+        >
+          <span class="text-xl">⚠️</span> {{ errorMessage }}
+        </div>
+      </form>
+
+      <div
+        class="mt-12 pt-10 border-t border-beige-accent text-center reveal-up active"
+        style="transition-delay: 500ms"
+      >
+        <p class="text-gray-400 font-medium">
+          New to the network?
+          <a
+            routerLink="/register"
+            class="font-black text-charcoal hover:text-lime-green transition-colors underline-offset-8 decoration-lime-green decoration-2 hover:underline ml-2"
+            >Join Today</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

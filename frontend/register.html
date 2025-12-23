@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Register for Saraha - Create your account to receive anonymous messages"
+    />
+    <title>Register - Saraha</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+  </head>
+  <body>
+    <div class="auth-page">
+      <div class="auth-container">
+        <div class="auth-card fade-in">
+          <div class="auth-header">
+            <div class="auth-logo">S</div>
+            <h1 class="auth-title">Create Account</h1>
+            <p class="auth-subtitle">
+              Join Saraha and start receiving anonymous messages
+            </p>
+          </div>
+
+          <form id="registerForm" class="auth-form">
+            <!-- Username -->
+            <div class="form-group">
+              <label for="userName" class="form-label">Username</label>
+              <div style="position: relative">
+                <input
+                  type="text"
+                  id="userName"
+                  name="userName"
+                  class="form-input"
+                  placeholder="Enter your username"
+                  required
+                />
+                <span class="input-icon">👤</span>
+              </div>
+              <span class="form-error" id="userNameError"></span>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+              <label for="email" class="form-label">Email Address</label>
+              <div style="position: relative">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-input"
+                  placeholder="Enter your email"
+                  required
+                />
+                <span class="input-icon">📧</span>
+              </div>
+              <span class="form-error" id="emailError"></span>
+            </div>
+
+            <!-- Phone -->
+            <div class="form-group">
+              <label for="Phone" class="form-label">Phone Number</label>
+              <div style="position: relative">
+                <input
+                  type="tel"
+                  id="Phone"
+                  name="Phone"
+                  class="form-input"
+                  placeholder="Enter your phone number"
+                  required
+                />
+                <span class="input-icon">📱</span>
+              </div>
+              <span class="form-error" id="PhoneError"></span>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+              <label for="password" class="form-label">Password</label>
+              <div style="position: relative">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="form-input"
+                  placeholder="Create a strong password"
+                  required
+                />
+                <span class="input-icon">🔒</span>
+                <button
+                  type="button"
+                  class="password-toggle"
+                  onclick="togglePassword('password')"
+                >
+                  👁️
+                </button>
+              </div>
+              <span class="form-error" id="passwordError"></span>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+              <label for="confirmPassword" class="form-label"
+                >Confirm Password</label
+              >
+              <div style="position: relative">
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  class="form-input"
+                  placeholder="Confirm your password"
+                  required
+                />
+                <span class="input-icon">🔒</span>
+                <button
+                  type="button"
+                  class="password-toggle"
+                  onclick="togglePassword('confirmPassword')"
+                >
+                  👁️
+                </button>
+              </div>
+              <span class="form-error" id="confirmPasswordError"></span>
+            </div>
+
+            <!-- Role (hidden, default to User) -->
+            <input type="hidden" name="role" value="User" />
+
+            <!-- Submit Button -->
+            <button type="submit" class="auth-submit" id="submitBtn">
+              Create Account
+            </button>
+          </form>
+
+          <div class="auth-footer">
+            Already have an account? <a href="login.html">Login here</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/localStorage-api.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+      // Redirect if already authenticated
+      redirectIfAuthenticated();
+
+      // Toggle password visibility
+      function togglePassword(fieldId) {
+        const field = document.getElementById(fieldId);
+        field.type = field.type === "password" ? "text" : "password";
+      }
+
+      // Form validation
+      function validateForm(formData) {
+        let isValid = true;
+
+        // Clear previous errors
+        document
+          .querySelectorAll(".form-error")
+          .forEach((el) => (el.textContent = ""));
+        document
+          .querySelectorAll(".form-input")
+          .forEach((el) => el.classList.remove("error"));
+
+        // Username validation
+        if (!formData.userName || formData.userName.length < 3) {
+          document.getElementById("userNameError").textContent =
+            "Username must be at least 3 characters";
+          document.getElementById("userName").classList.add("error");
+          isValid = false;
+        }
+
+        // Email validation
+        if (!isValidEmail(formData.email)) {
+          document.getElementById("emailError").textContent =
+            "Please enter a valid email address";
+          document.getElementById("email").classList.add("error");
+          isValid = false;
+        }
+
+        // Phone validation
+        if (!isValidPhone(formData.Phone)) {
+          document.getElementById("PhoneError").textContent =
+            "Please enter a valid phone number";
+          document.getElementById("Phone").classList.add("error");
+          isValid = false;
+        }
+
+        // Password validation
+        if (!isValidPassword(formData.password)) {
+          document.getElementById("passwordError").textContent =
+            "Password must be at least 8 characters with letters and numbers";
+          document.getElementById("password").classList.add("error");
+          isValid = false;
+        }
+
+        // Confirm password validation
+        if (formData.password !== formData.confirmPassword) {
+          document.getElementById("confirmPasswordError").textContent =
+            "Passwords do not match";
+          document.getElementById("confirmPassword").classList.add("error");
+          isValid = false;
+        }
+
+        return isValid;
+      }
+
+      // Handle form submission
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const formData = {
+            userName: document.getElementById("userName").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            Phone: document.getElementById("Phone").value.trim(),
+            password: document.getElementById("password").value,
+            confirmPassword: document.getElementById("confirmPassword").value,
+            role: "User",
+          };
+
+          // Validate form
+          if (!validateForm(formData)) {
+            return;
+          }
+
+          // Show loading
+          const submitBtn = document.getElementById("submitBtn");
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Creating Account...";
+          showLoading();
+
+          try {
+            const response = await api.register(formData);
+
+            hideLoading();
+
+            // Show success message
+            showToast(
+              "Account created successfully! Please check your email to activate your account.",
+              "success"
+            );
+
+            // Redirect to login after 2 seconds
+            setTimeout(() => {
+              window.location.href = "login.html";
+            }, 2000);
+          } catch (error) {
+            hideLoading();
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Create Account";
+
+            showToast(
+              error.message || "Registration failed. Please try again.",
+              "error"
+            );
+          }
+        });
+    </script>
+  </body>
+</html>

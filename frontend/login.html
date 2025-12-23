@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Login to Saraha - Access your anonymous messaging account"
+    />
+    <title>Login - Saraha</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+  </head>
+  <body>
+    <div class="auth-page">
+      <div class="auth-container">
+        <div class="auth-card fade-in">
+          <div class="auth-header">
+            <div class="auth-logo">S</div>
+            <h1 class="auth-title">Welcome Back</h1>
+            <p class="auth-subtitle">Login to access your anonymous messages</p>
+          </div>
+
+          <form id="loginForm" class="auth-form">
+            <!-- Email -->
+            <div class="form-group">
+              <label for="email" class="form-label">Email Address</label>
+              <div style="position: relative">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-input"
+                  placeholder="Enter your email"
+                  required
+                />
+                <span class="input-icon">📧</span>
+              </div>
+              <span class="form-error" id="emailError"></span>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+              <label for="password" class="form-label">Password</label>
+              <div style="position: relative">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="form-input"
+                  placeholder="Enter your password"
+                  required
+                />
+                <span class="input-icon">🔒</span>
+                <button
+                  type="button"
+                  class="password-toggle"
+                  onclick="togglePassword('password')"
+                >
+                  👁️
+                </button>
+              </div>
+              <span class="form-error" id="passwordError"></span>
+            </div>
+
+            <!-- Remember Me & Forgot Password -->
+            <div class="auth-options">
+              <div class="checkbox-wrapper">
+                <input type="checkbox" id="rememberMe" name="rememberMe" />
+                <label for="rememberMe">Remember me</label>
+              </div>
+              <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="auth-submit" id="submitBtn">
+              Login to Account
+            </button>
+          </form>
+
+          <div class="auth-footer">
+            Don't have an account? <a href="register.html">Create one now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/localStorage-api.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+      // Redirect if already authenticated
+      redirectIfAuthenticated();
+
+      // Toggle password visibility
+      function togglePassword(fieldId) {
+        const field = document.getElementById(fieldId);
+        field.type = field.type === "password" ? "text" : "password";
+      }
+
+      // Form validation
+      function validateForm(formData) {
+        let isValid = true;
+
+        // Clear previous errors
+        document
+          .querySelectorAll(".form-error")
+          .forEach((el) => (el.textContent = ""));
+        document
+          .querySelectorAll(".form-input")
+          .forEach((el) => el.classList.remove("error"));
+
+        // Email validation
+        if (!isValidEmail(formData.email)) {
+          document.getElementById("emailError").textContent =
+            "Please enter a valid email address";
+          document.getElementById("email").classList.add("error");
+          isValid = false;
+        }
+
+        // Password validation
+        if (!formData.password || formData.password.length < 6) {
+          document.getElementById("passwordError").textContent =
+            "Password is required";
+          document.getElementById("password").classList.add("error");
+          isValid = false;
+        }
+
+        return isValid;
+      }
+
+      // Handle form submission
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const formData = {
+            email: document.getElementById("email").value.trim(),
+            password: document.getElementById("password").value,
+          };
+
+          // Validate form
+          if (!validateForm(formData)) {
+            return;
+          }
+
+          // Show loading
+          const submitBtn = document.getElementById("submitBtn");
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Logging in...";
+          showLoading();
+
+          try {
+            const response = await api.login(formData);
+
+            // Save user data - fetch full profile after login
+            if (response.token) {
+              try {
+                const userProfile = await api.getUserProfile();
+                saveUserData(userProfile);
+              } catch (profileError) {
+                // Fallback: save minimal data
+                console.error("Failed to fetch profile:", profileError);
+                saveUserData({ email: formData.email });
+              }
+            }
+
+            hideLoading();
+
+            // Show success message
+            showToast("Login successful! Redirecting...", "success");
+
+            // Redirect to dashboard
+            setTimeout(() => {
+              window.location.href = "dashboard.html";
+            }, 1000);
+          } catch (error) {
+            hideLoading();
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Login to Account";
+
+            showToast(
+              error.message || "Login failed. Please check your credentials.",
+              "error"
+            );
+          }
+        });
+    </script>
+  </body>
+</html>

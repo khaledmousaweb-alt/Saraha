@@ -1,0 +1,119 @@
+<div class="max-w-3xl mx-auto space-y-12 reveal-up active">
+  <div
+    class="bg-white rounded-large shadow-2xl overflow-hidden border border-beige-accent reveal-up active"
+  >
+    <!-- Header -->
+    <div class="bg-charcoal p-12 text-beige relative overflow-hidden">
+      <div class="relative z-10 space-y-2">
+        <h3 class="text-4xl font-black tracking-tight mb-2">Initiate Transmission</h3>
+        <p class="text-beige/40 font-bold uppercase tracking-[3px] text-xs">
+          Protocol: 100% Anonymous Encryption
+        </p>
+      </div>
+      <!-- Decor -->
+      <div
+        class="absolute top-0 right-0 w-64 h-64 bg-lime-green/10 rounded-full blur-[80px] -mr-32 -mt-32 animate-pulse"
+      ></div>
+    </div>
+
+    <!-- Form -->
+    <div class="p-12">
+      <form [formGroup]="messageForm" (ngSubmit)="onSubmit()" class="space-y-10">
+        <div class="reveal-up active" style="transition-delay: 100ms">
+          <label class="block text-xs font-black text-charcoal uppercase tracking-[2px] mb-4"
+            >Target Node Identity (Email)</label
+          >
+          <div class="relative">
+            <input
+              formControlName="receiverEmail"
+              type="email"
+              class="input-field !pl-6"
+              placeholder="recipient@network.com"
+            />
+          </div>
+          <p class="mt-4 text-[10px] font-bold text-gray-300 uppercase tracking-widest">
+            Identity lookup will be performed via encrypted frequency.
+          </p>
+          <div
+            *ngIf="receiverEmail?.invalid && receiverEmail?.touched"
+            class="text-red-500 text-[11px] mt-2 font-bold uppercase tracking-wider"
+          >
+            Requirement: Valid network address.
+          </div>
+        </div>
+
+        <div class="reveal-up active" style="transition-delay: 200ms">
+          <div class="flex items-center justify-between mb-4">
+            <label class="block text-xs font-black text-charcoal uppercase tracking-[2px]"
+              >Encrypted Payload (Message)</label
+            >
+            <span
+              class="text-[10px] font-black uppercase tracking-widest"
+              [class.text-red-500]="characterCount > maxLength"
+              [class.text-gray-300]="characterCount <= maxLength"
+            >
+              Storage: {{ characterCount }} / {{ maxLength }}
+            </span>
+          </div>
+          <textarea
+            formControlName="content"
+            rows="8"
+            class="input-field resize-none py-6 !px-6 text-lg font-medium leading-relaxed"
+            placeholder="Input your authentic feedback here..."
+          ></textarea>
+          <div
+            *ngIf="content?.invalid && content?.touched"
+            class="text-red-500 text-[11px] mt-2 font-bold uppercase tracking-wider"
+          >
+            Requirement: Payload cannot be empty.
+          </div>
+        </div>
+
+        <div class="reveal-up active" style="transition-delay: 300ms">
+          <button
+            type="submit"
+            [disabled]="messageForm.invalid || isLoading"
+            class="w-full btn btn-primary !py-6 text-xl"
+          >
+            <span *ngIf="!isLoading" class="flex items-center justify-center gap-4">
+              Authorize Transmission <span>🚀</span>
+            </span>
+            <span *ngIf="isLoading" class="flex items-center justify-center gap-4">
+              <svg class="animate-spin h-6 w-6 text-charcoal" viewBox="0 0 24 24">
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                  fill="none"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              Encrypting...
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div
+    class="p-10 bg-lime-green/5 rounded-large border border-lime-green/20 flex items-start gap-6 reveal-up active"
+    style="transition-delay: 400ms"
+  >
+    <div class="text-4xl">💡</div>
+    <div>
+      <h4 class="font-black text-charcoal mb-2 text-xl tracking-tight">System Guideline</h4>
+      <p class="text-gray-500 font-medium leading-relaxed">
+        Transmission integrity is paramount. While anonymity is guaranteed, we encourage
+        constructive and high-value communication to maximize the network's impact.
+      </p>
+    </div>
+  </div>
+</div>

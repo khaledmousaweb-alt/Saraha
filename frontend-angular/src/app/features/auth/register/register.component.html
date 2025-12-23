@@ -1,0 +1,123 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Create Account</h1>
+      <p>Join Saraha for anonymous messaging</p>
+    </div>
+
+    <div class="success-message" *ngIf="showSuccess">
+      <h3>✓ Registration Successful!</h3>
+      <p>Please check your email to activate your account. Redirecting to login...</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form" *ngIf="!showSuccess">
+      <div class="form-group">
+        <label for="userName">Username</label>
+        <input
+          type="text"
+          id="userName"
+          formControlName="userName"
+          placeholder="Enter username (3-20 characters)"
+          [class.error]="userName?.invalid && userName?.touched"
+        />
+        <div class="error-message" *ngIf="userName?.invalid && userName?.touched">
+          <span *ngIf="userName?.errors?.['required']">Username is required</span>
+          <span *ngIf="userName?.errors?.['minlength']"
+            >Username must be at least 3 characters</span
+          >
+          <span *ngIf="userName?.errors?.['maxlength']"
+            >Username must be at most 20 characters</span
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          [class.error]="email?.invalid && email?.touched"
+        />
+        <div class="error-message" *ngIf="email?.invalid && email?.touched">
+          <span *ngIf="email?.errors?.['required']">Email is required</span>
+          <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="Phone">Phone Number</label>
+        <input
+          type="tel"
+          id="Phone"
+          formControlName="Phone"
+          placeholder="Enter phone number (10-15 digits)"
+          [class.error]="Phone?.invalid && Phone?.touched"
+        />
+        <div class="error-message" *ngIf="Phone?.invalid && Phone?.touched">
+          <span *ngIf="Phone?.errors?.['required']">Phone number is required</span>
+          <span *ngIf="Phone?.errors?.['pattern']"
+            >Please enter a valid phone number (10-15 digits)</span
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="Enter password (min 6 characters)"
+          [class.error]="password?.invalid && password?.touched"
+        />
+        <div class="error-message" *ngIf="password?.invalid && password?.touched">
+          <span *ngIf="password?.errors?.['required']">Password is required</span>
+          <span *ngIf="password?.errors?.['minlength']"
+            >Password must be at least 6 characters</span
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          placeholder="Confirm your password"
+          [class.error]="(confirmPassword?.invalid && confirmPassword?.touched) || registerForm.errors?.['passwordMismatch']"
+        />
+        <div
+          class="error-message"
+          *ngIf="confirmPassword?.touched && registerForm.errors?.['passwordMismatch']"
+        >
+          <span>Passwords do not match</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Gender (Optional)</label>
+        <select id="gender" formControlName="gender">
+          <option value="not specified">Prefer not to say</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+
+      <div class="error-banner" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Create Account</span>
+        <span *ngIf="isLoading" class="loading-spinner">Creating account...</span>
+      </button>
+    </form>
+
+    <div class="auth-footer" *ngIf="!showSuccess">
+      <p>Already have an account? <a routerLink="/login">Sign in</a></p>
+    </div>
+  </div>
+</div>

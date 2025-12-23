@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Saraha - Anonymous messaging app. Send and receive anonymous messages."
+    />
+    <title>Saraha - Anonymous Messaging</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+  </head>
+  <body>
+    <div class="auth-page">
+      <div class="auth-container">
+        <div class="auth-card fade-in">
+          <div class="auth-header">
+            <div class="auth-logo">S</div>
+            <h1 class="auth-title">Welcome to Saraha</h1>
+            <p class="auth-subtitle">Send and receive anonymous messages</p>
+          </div>
+
+          <div class="auth-body">
+            <a href="login.html" class="btn btn-primary btn-lg btn-block mb-4">
+              Login to Your Account
+            </a>
+            <a href="register.html" class="btn btn-outline btn-lg btn-block">
+              Create New Account
+            </a>
+          </div>
+
+          <div class="auth-divider">
+            <span>Features</span>
+          </div>
+
+          <div
+            class="features-grid"
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+              gap: 1rem;
+              margin-top: 2rem;
+            "
+          >
+            <div style="text-align: center; padding: 1rem">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem">🔒</div>
+              <h4
+                style="
+                  font-size: 0.875rem;
+                  font-weight: 600;
+                  color: var(--gray-700);
+                "
+              >
+                Anonymous
+              </h4>
+              <p style="font-size: 0.75rem; color: var(--gray-500); margin: 0">
+                100% Anonymous messaging
+              </p>
+            </div>
+            <div style="text-align: center; padding: 1rem">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem">⚡</div>
+              <h4
+                style="
+                  font-size: 0.875rem;
+                  font-weight: 600;
+                  color: var(--gray-700);
+                "
+              >
+                Fast
+              </h4>
+              <p style="font-size: 0.75rem; color: var(--gray-500); margin: 0">
+                Instant message delivery
+              </p>
+            </div>
+            <div style="text-align: center; padding: 1rem">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem">🎯</div>
+              <h4
+                style="
+                  font-size: 0.875rem;
+                  font-weight: 600;
+                  color: var(--gray-700);
+                "
+              >
+                Simple
+              </h4>
+              <p style="font-size: 0.75rem; color: var(--gray-500); margin: 0">
+                Easy to use interface
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script>
+      // Redirect if already authenticated
+      redirectIfAuthenticated();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<div class="send-message-container">
+  <h2>✉️ Send Anonymous Message</h2>
+  <p class="subtitle">Send a message to another user anonymously</p>
+
+  <form [formGroup]="messageForm" (ngSubmit)="onSubmit()" class="message-form">
+    <div class="form-group">
+      <label for="receiverId">Receiver User ID</label>
+      <input
+        type="text"
+        id="receiverId"
+        formControlName="receiverId"
+        placeholder="Enter the receiver's user ID"
+        [class.error]="receiverId?.invalid && receiverId?.touched"
+      />
+      <div class="error-message" *ngIf="receiverId?.invalid && receiverId?.touched">
+        <span *ngIf="receiverId?.errors?.['required']">Receiver ID is required</span>
+      </div>
+      <p class="hint">You can find a user's ID from their share link</p>
+    </div>
+
+    <div class="form-group">
+      <label for="content">Message</label>
+      <textarea
+        id="content"
+        formControlName="content"
+        placeholder="Type your anonymous message here..."
+        rows="6"
+        [class.error]="content?.invalid && content?.touched"
+      ></textarea>
+      <div class="character-counter" [class.limit-reached]="characterCount >= maxLength">
+        {{ characterCount }} / {{ maxLength }}
+      </div>
+      <div class="error-message" *ngIf="content?.invalid && content?.touched">
+        <span *ngIf="content?.errors?.['required']">Message content is required</span>
+        <span *ngIf="content?.errors?.['minlength']">Message must be at least 1 character</span>
+        <span *ngIf="content?.errors?.['maxlength']">Message must be at most 500 characters</span>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-send" [disabled]="isLoading">
+      <span *ngIf="!isLoading">Send Message</span>
+      <span *ngIf="isLoading">Sending...</span>
+    </button>
+  </form>
+</div>

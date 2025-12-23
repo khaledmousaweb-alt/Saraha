@@ -1,0 +1,95 @@
+<div class="space-y-12 reveal-up active">
+  <!-- Header Info -->
+  <div class="flex items-center justify-between border-b border-beige-accent pb-8">
+    <div>
+      <h3 class="text-3xl font-black text-charcoal tracking-tight">Intelligence Inbox</h3>
+      <p class="text-gray-400 font-medium mt-1">
+        Status: {{ messages.length }} encrypted messages received
+      </p>
+    </div>
+    <button
+      (click)="loadMessages()"
+      class="flex items-center gap-3 px-6 py-3 bg-white border border-beige-accent rounded-full text-xs font-black text-charcoal uppercase tracking-[2px] hover:bg-beige transition-all shadow-sm"
+    >
+      <span class="animate-spin-slow">🔄</span> Sync Network
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="flex flex-col items-center justify-center py-32 reveal-up active">
+    <div class="relative w-20 h-20">
+      <div class="absolute inset-0 border-4 border-lime-green/20 rounded-full"></div>
+      <div
+        class="absolute inset-0 border-4 border-lime-green border-t-transparent rounded-full animate-spin"
+      ></div>
+    </div>
+    <p class="text-charcoal font-black uppercase tracking-[3px] mt-8 text-xs">Decrypting Feed...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div
+    *ngIf="!isLoading && messages.length === 0"
+    class="flex flex-col items-center justify-center py-32 px-8 text-center bg-white rounded-large border border-beige-accent shadow-xl reveal-up active"
+  >
+    <div
+      class="w-24 h-24 bg-beige rounded-full flex items-center justify-center text-5xl mb-8 shadow-inner"
+    >
+      📭
+    </div>
+    <h3 class="text-3xl font-black text-charcoal mb-4 tracking-tight">Silent Frequency</h3>
+    <p class="text-gray-400 font-medium max-w-sm mx-auto mb-10 text-lg leading-relaxed">
+      Your anonymous network is currently quiet. Broadcast your link to invite authentic
+      perspectives.
+    </p>
+    <a routerLink="/dashboard/share" class="btn btn-primary px-10 py-5 text-lg"
+      >Broadcast Profile Link</a
+    >
+  </div>
+
+  <!-- Messages Grid -->
+  <div
+    *ngIf="!isLoading && messages.length > 0"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10"
+  >
+    <div
+      *ngFor="let message of messages; let i = index"
+      class="group relative bg-white rounded-large border border-beige-accent p-10 hover:shadow-2xl hover:shadow-charcoal/5 transition-all duration-500 reveal-up active"
+      [style.transition-delay]="i * 100 + 'ms'"
+    >
+      <div class="flex justify-between items-start mb-8">
+        <div
+          class="w-12 h-12 rounded-full bg-lime-green/10 flex items-center justify-center text-2xl shadow-inner"
+        >
+          💬
+        </div>
+        <button
+          (click)="onDeleteMessage(message._id)"
+          class="opacity-0 group-hover:opacity-100 p-3 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all duration-300"
+        >
+          🗑️
+        </button>
+      </div>
+
+      <p class="text-charcoal font-black text-2xl leading-snug tracking-tighter mb-10 line-clamp-4">
+        "{{ message.content }}"
+      </p>
+
+      <div class="flex items-center justify-between pt-8 border-t border-beige-accent">
+        <div class="flex items-center gap-3">
+          <div class="w-2 h-2 rounded-full bg-lime-green"></div>
+          <span class="text-[10px] font-black text-charcoal uppercase tracking-[2px]">
+            {{ message.createdAt | date : 'mediumDate' }}
+          </span>
+        </div>
+        <span class="text-[10px] font-black text-gray-300 uppercase tracking-[2px]"
+          >Verified Anonymous</span
+        >
+      </div>
+
+      <!-- Hover Accent -->
+      <div
+        class="absolute bottom-0 left-0 w-0 h-1 bg-lime-green group-hover:w-full transition-all duration-700 rounded-b-large"
+      ></div>
+    </div>
+  </div>
+</div>

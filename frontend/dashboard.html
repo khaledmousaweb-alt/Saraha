@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Saraha Dashboard - Manage your anonymous messages"
+    />
+    <title>Dashboard - Saraha</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+  </head>
+  <body>
+    <div class="dashboard">
+      <!-- Navigation Bar -->
+      <nav class="navbar">
+        <div class="container navbar-container">
+          <div class="navbar-brand">
+            <div class="navbar-logo">S</div>
+            <span>Saraha</span>
+          </div>
+          <div class="navbar-menu">
+            <a href="dashboard.html" class="navbar-link active">Dashboard</a>
+            <a href="profile.html" class="navbar-link">Profile</a>
+          </div>
+          <div class="navbar-user">
+            <div class="user-avatar" id="userAvatar" title="User Menu">?</div>
+            <button class="btn btn-sm btn-outline" onclick="handleLogout()">
+              Logout
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Dashboard Content -->
+      <div class="dashboard-content">
+        <div class="container">
+          <!-- Dashboard Header -->
+          <div class="dashboard-header">
+            <h1 class="dashboard-title">Your Dashboard</h1>
+            <p class="dashboard-subtitle" id="welcomeMessage">Welcome back!</p>
+          </div>
+
+          <!-- Share Link Section -->
+          <div class="share-link-section">
+            <h2 class="share-link-title">📤 Share Your Link</h2>
+            <p style="color: var(--gray-600); margin-bottom: var(--space-6)">
+              Share this link to receive anonymous messages
+            </p>
+            <div class="share-link-box">
+              <input
+                type="text"
+                class="share-link-input"
+                id="shareLink"
+                readonly
+                value="Loading..."
+              />
+              <button class="copy-btn" onclick="copyShareLink()">
+                <span id="copyBtnText">Copy Link</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">📨</div>
+              <div class="stat-value" id="totalMessages">0</div>
+              <div class="stat-label">Total Messages</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📥</div>
+              <div class="stat-value" id="inboxCount">0</div>
+              <div class="stat-label">Inbox</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📤</div>
+              <div class="stat-value" id="sentCount">0</div>
+              <div class="stat-label">Sent</div>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <div class="tabs">
+            <button
+              class="tab-btn active"
+              data-tab="inbox"
+              onclick="switchTab('inbox')"
+            >
+              📥 Inbox
+            </button>
+            <button class="tab-btn" data-tab="sent" onclick="switchTab('sent')">
+              📤 Sent
+            </button>
+            <button class="tab-btn" data-tab="send" onclick="switchTab('send')">
+              ✉️ Send Message
+            </button>
+          </div>
+
+          <!-- Tab Content: Inbox -->
+          <div id="inboxTab" class="tab-content">
+            <div class="messages-container">
+              <div class="messages-header">
+                <h3 class="messages-title">Inbox Messages</h3>
+                <button
+                  class="btn btn-sm btn-primary"
+                  onclick="loadMessages('inbox')"
+                >
+                  🔄 Refresh
+                </button>
+              </div>
+              <div id="inboxMessages">
+                <div class="empty-state">
+                  <div class="empty-icon">📭</div>
+                  <h3 class="empty-title">No messages yet</h3>
+                  <p class="empty-text">
+                    Share your link to start receiving anonymous messages
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab Content: Sent -->
+          <div id="sentTab" class="tab-content" style="display: none">
+            <div class="messages-container">
+              <div class="messages-header">
+                <h3 class="messages-title">Sent Messages</h3>
+                <button
+                  class="btn btn-sm btn-primary"
+                  onclick="loadMessages('sent')"
+                >
+                  🔄 Refresh
+                </button>
+              </div>
+              <div id="sentMessages">
+                <div class="empty-state">
+                  <div class="empty-icon">📪</div>
+                  <h3 class="empty-title">No sent messages</h3>
+                  <p class="empty-text">You haven't sent any messages yet</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab Content: Send Message -->
+          <div id="sendTab" class="tab-content" style="display: none">
+            <div class="send-message-form">
+              <div class="send-message-header">
+                <h3 class="send-message-title">✉️ Send Anonymous Message</h3>
+                <p class="send-message-subtitle">
+                  Send a message to another Saraha user
+                </p>
+              </div>
+              <form id="sendMessageForm">
+                <div class="form-group">
+                  <label for="receiverId" class="form-label">Receiver ID</label>
+                  <input
+                    type="text"
+                    id="receiverId"
+                    class="form-input"
+                    placeholder="Enter receiver's user ID"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="messageContent" class="form-label">Message</label>
+                  <textarea
+                    id="messageContent"
+                    class="form-textarea"
+                    placeholder="Write your anonymous message here..."
+                    required
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="senderName" class="form-label"
+                    >Your Name (Optional)</label
+                  >
+                  <input
+                    type="text"
+                    id="senderName"
+                    class="form-input"
+                    placeholder="Anonymous"
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                  Send Message 🚀
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/localStorage-api.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-beige text-charcoal font-sans antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-charcoal font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-8 py-4 rounded-[0.4rem] font-bold transition-all duration-300 tracking-tight;
+  }
+  .btn-primary {
+    @apply bg-lime-green text-charcoal hover:bg-lime-green/90 shadow-lg shadow-lime-green/10 hover:-translate-y-0.5 active:scale-[0.98];
+  }
+  .btn-secondary {
+    @apply bg-charcoal text-beige hover:bg-charcoal/90 shadow-lg shadow-charcoal/10 hover:-translate-y-0.5;
+  }
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-lg border border-beige-accent shadow-xl rounded-[0.4rem];
+  }
+  .input-field {
+    @apply w-full px-5 py-4 bg-white border border-beige-accent rounded-[0.4rem] focus:outline-none focus:ring-4 focus:ring-lime-green/10 focus:border-lime-green transition-all duration-300 shadow-sm text-charcoal placeholder:text-gray-400;
+  }
+  
+  /* MindMarket Animation Classes */
+  .reveal-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-up.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom Scrollbar for Lenis-like feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: theme('colors.beige.DEFAULT');
+}
+::-webkit-scrollbar-thumb {
+  background: theme('colors.beige.dark');
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.charcoal');
+}

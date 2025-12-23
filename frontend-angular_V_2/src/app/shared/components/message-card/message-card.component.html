@@ -1,0 +1,37 @@
+<div
+  class="group bg-white border border-beige-accent rounded-large p-10 hover:shadow-2xl hover:shadow-charcoal/5 transition-all duration-500 reveal-up active relative overflow-hidden"
+>
+  <!-- Accent Border -->
+  <div
+    class="absolute left-0 top-0 w-1 h-full bg-lime-green opacity-0 group-hover:opacity-100 transition-opacity"
+  ></div>
+
+  <div class="flex justify-between items-start mb-6">
+    <div class="flex flex-col gap-1">
+      <span class="text-[10px] font-black text-lime-green uppercase tracking-[3px]"
+        >Signal Received</span
+      >
+      <span class="text-[11px] font-black text-charcoal/20 uppercase tracking-[2px]">{{
+        getRelativeTime(message.createdAt)
+      }}</span>
+    </div>
+    <div
+      class="w-2 h-2 rounded-full bg-lime-green/20 group-hover:bg-lime-green group-hover:animate-ping transition-all"
+    ></div>
+  </div>
+
+  <div class="space-y-4">
+    <p class="text-lg font-medium text-charcoal leading-relaxed tracking-tight">
+      {{ message.content }}
+    </p>
+  </div>
+
+  <div class="mt-8 flex justify-end items-center gap-6" *ngIf="showDelete">
+    <button
+      (click)="onDelete()"
+      class="text-[10px] font-black text-charcoal/20 hover:text-red-500 uppercase tracking-[3px] transition-colors"
+    >
+      Terminate Signal
+    </button>
+  </div>
+</div>

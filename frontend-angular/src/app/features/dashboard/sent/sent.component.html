@@ -1,0 +1,25 @@
+<div class="sent-container">
+  <h2>📤 Sent Messages</h2>
+  <p class="subtitle">Messages you've sent</p>
+
+  <div class="loading" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading messages...</p>
+  </div>
+
+  <div class="empty-state" *ngIf="!isLoading && messages.length === 0">
+    <div class="empty-icon">📮</div>
+    <h3>No sent messages</h3>
+    <p>Start sending anonymous messages to others!</p>
+  </div>
+
+  <div class="messages-grid" *ngIf="!isLoading && messages.length > 0">
+    <app-message-card
+      *ngFor="let message of messages"
+      [message]="message"
+      [showDelete]="true"
+      (delete)="onDeleteMessage($event)"
+    >
+    </app-message-card>
+  </div>
+</div>

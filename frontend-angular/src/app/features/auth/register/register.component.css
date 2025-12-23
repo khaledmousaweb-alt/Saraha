@@ -1,0 +1,145 @@
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  width: 100%;
+}
+
+.auth-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  width: 100%;
+  max-width: 500px; /* Slightly wider for register form */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  animation: slideUp 0.5s ease-out;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-header h1 {
+  font-size: 2rem;
+  color: var(--color-charcoal);
+  margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+  color: rgba(44, 46, 42, 0.6);
+  font-size: 1rem;
+}
+
+.success-message {
+  background: var(--color-green);
+  color: var(--color-charcoal);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--color-charcoal);
+  font-size: 0.9rem;
+}
+
+/* Select needs specific styling to match inputs */
+select {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid transparent;
+  background: #f7f7f5;
+  border-radius: 1rem;
+  font-family: var(--font-inter);
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  appearance: none; /* Remove default arrow */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+}
+
+select:focus {
+  outline: none;
+  background-color: var(--color-white);
+  border-color: var(--color-green);
+}
+
+.error-message {
+  color: var(--color-red);
+  font-size: 0.85rem;
+  margin-top: -0.25rem;
+}
+
+.error-banner {
+  background: #fde8e8;
+  color: var(--color-red);
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 1rem;
+}
+
+.loading-spinner {
+  display: inline-block;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.auth-footer a {
+  color: var(--color-green-dark);
+  font-weight: 600;
+}
+
+.auth-footer a:hover {
+  color: var(--color-green);
+  text-decoration: underline;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-card {
+    padding: 2rem;
+  }
+}

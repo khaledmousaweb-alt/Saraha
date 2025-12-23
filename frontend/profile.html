@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="User Profile - Saraha" />
+    <title>Profile - Saraha</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+  </head>
+  <body>
+    <div class="dashboard">
+      <!-- Navigation Bar -->
+      <nav class="navbar">
+        <div class="container navbar-container">
+          <div class="navbar-brand">
+            <div class="navbar-logo">S</div>
+            <span>Saraha</span>
+          </div>
+          <div class="navbar-menu">
+            <a href="dashboard.html" class="navbar-link">Dashboard</a>
+            <a href="profile.html" class="navbar-link active">Profile</a>
+          </div>
+          <div class="navbar-user">
+            <div class="user-avatar" id="userAvatar">?</div>
+            <button class="btn btn-sm btn-outline" onclick="handleLogout()">
+              Logout
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Profile Content -->
+      <div class="dashboard-content">
+        <div class="container">
+          <div class="dashboard-header">
+            <h1 class="dashboard-title">Your Profile</h1>
+            <p class="dashboard-subtitle">Manage your account settings</p>
+          </div>
+
+          <div style="max-width: 600px; margin: 0 auto">
+            <!-- Profile Card -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Account Information</h3>
+              </div>
+              <div class="card-body">
+                <div style="text-align: center; margin-bottom: var(--space-8)">
+                  <div
+                    style="
+                      width: 100px;
+                      height: 100px;
+                      margin: 0 auto var(--space-4);
+                      background: var(--primary-gradient);
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-size: var(--text-4xl);
+                      color: var(--white);
+                      font-weight: 800;
+                    "
+                  >
+                    <span id="profileAvatar">?</span>
+                  </div>
+                  <h3
+                    id="profileEmail"
+                    style="
+                      font-size: var(--text-xl);
+                      color: var(--gray-900);
+                      margin-bottom: var(--space-2);
+                    "
+                  >
+                    Loading...
+                  </h3>
+                  <p style="color: var(--gray-600)">Saraha User</p>
+                </div>
+
+                <div
+                  style="
+                    background: var(--gray-50);
+                    padding: var(--space-6);
+                    border-radius: var(--radius-lg);
+                    margin-bottom: var(--space-6);
+                  "
+                >
+                  <h4
+                    style="
+                      font-size: var(--text-lg);
+                      font-weight: 700;
+                      margin-bottom: var(--space-4);
+                      color: var(--gray-900);
+                    "
+                  >
+                    📤 Your Share Link
+                  </h4>
+                  <div style="display: flex; gap: var(--space-3)">
+                    <input
+                      type="text"
+                      class="form-input"
+                      id="profileShareLink"
+                      readonly
+                      value="Loading..."
+                      style="flex: 1"
+                    />
+                    <button class="btn btn-primary" onclick="copyProfileLink()">
+                      Copy
+                    </button>
+                  </div>
+                </div>
+
+                <div class="alert alert-info">
+                  <strong>💡 Tip:</strong> Share your link on social media to
+                  receive anonymous messages from anyone!
+                </div>
+              </div>
+            </div>
+
+            <!-- Account Actions -->
+            <div class="card" style="margin-top: var(--space-6)">
+              <div class="card-header">
+                <h3 class="card-title">Account Actions</h3>
+              </div>
+              <div class="card-body">
+                <button
+                  class="btn btn-outline btn-block mb-4"
+                  onclick="alert('Change password feature coming soon!')"
+                >
+                  🔒 Change Password
+                </button>
+                <button
+                  class="btn btn-outline btn-block mb-4"
+                  onclick="alert('Update profile feature coming soon!')"
+                >
+                  ✏️ Edit Profile
+                </button>
+                <button
+                  class="btn btn-secondary btn-block"
+                  onclick="handleLogout()"
+                >
+                  🚪 Logout
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/localStorage-api.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+      // Check authentication
+      if (!requireAuth()) {
+        // User will be redirected
+      }
+
+      // Load profile on page load
+      document.addEventListener("DOMContentLoaded", () => {
+        loadProfile();
+      });
+
+      // Load user profile
+      function loadProfile() {
+        const userData = getUserData();
+
+        if (userData) {
+          // Update profile email/username
+          const emailEl = document.getElementById("profileEmail");
+          if (emailEl) {
+            emailEl.textContent = userData.userName || userData.email;
+          }
+
+          // Update avatar
+          const avatarEl = document.getElementById("profileAvatar");
+          const navAvatarEl = document.getElementById("userAvatar");
+          const initials = getUserInitials(userData.userName || userData.email);
+
+          if (avatarEl) avatarEl.textContent = initials;
+          if (navAvatarEl) navAvatarEl.textContent = initials;
+
+          // Set share link using user ID
+          const shareLinkEl = document.getElementById("profileShareLink");
+          if (shareLinkEl && userData.id) {
+            shareLinkEl.value = `${window.location.origin}/index.html?to=${userData.id}`;
+          }
+        }
+      }
+
+      // Copy profile link
+      async function copyProfileLink() {
+        const shareLink = document.getElementById("profileShareLink");
+        if (shareLink) {
+          await copyToClipboard(shareLink.value);
+        }
+      }
+
+      // Handle logout
+      function handleLogout() {
+        if (confirm("Are you sure you want to logout?")) {
+          clearUserData();
+          api.logout();
+          window.location.href = "login.html";
+        }
+      }
+    </script>
+  </body>
+</html>

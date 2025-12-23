@@ -1,0 +1,168 @@
+<div class="max-w-5xl mx-auto pb-20 reveal-up active">
+  <div
+    class="bg-white rounded-large shadow-2xl overflow-hidden border border-beige-accent reveal-up active"
+  >
+    <!-- Header -->
+    <div class="bg-charcoal p-12 text-beige relative h-64 flex items-end overflow-hidden">
+      <div class="relative z-10 flex items-center gap-10 translate-y-16">
+        <div
+          class="w-40 h-40 rounded-large bg-lime-green shadow-2xl flex items-center justify-center text-6xl font-black text-charcoal border-8 border-white"
+        >
+          {{ userInitials }}
+        </div>
+        <div
+          class="bg-white/10 backdrop-blur-2xl px-8 py-5 rounded-large shadow-2xl border border-white/10"
+        >
+          <h3 class="text-3xl font-black text-beige tracking-tighter">{{ user?.userName }}</h3>
+          <p class="text-beige/40 font-bold uppercase tracking-[3px] text-[10px] mt-1">
+            Verified Node since {{ user?.createdAt | date : 'mediumDate' }}
+          </p>
+        </div>
+      </div>
+      <!-- Decor -->
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-charcoal via-charcoal to-lime-green/20"
+      ></div>
+      <div
+        class="absolute top-0 right-0 w-96 h-96 bg-lime-green/5 rounded-full blur-[100px] -mr-32 -mt-32 animate-pulse"
+      ></div>
+    </div>
+
+    <!-- Content -->
+    <div class="p-12 pt-32">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-16">
+        <!-- Sidebar Navigation -->
+        <div class="space-y-3 reveal-up active" style="transition-delay: 100ms">
+          <button
+            class="w-full flex items-center gap-4 px-6 py-4 rounded-[0.4rem] bg-lime-green text-charcoal font-black text-sm text-left shadow-lg shadow-lime-green/10 transition-all"
+          >
+            <span>👤</span> Profile Identity
+          </button>
+          <button
+            class="w-full flex items-center gap-4 px-6 py-4 rounded-[0.4rem] text-charcoal/40 hover:bg-beige hover:text-charcoal font-black text-sm text-left transition-all"
+          >
+            <span>🔒</span> Encryption Keys
+          </button>
+          <button
+            class="w-full flex items-center gap-4 px-6 py-4 rounded-[0.4rem] text-charcoal/40 hover:bg-beige hover:text-charcoal font-black text-sm text-left transition-all"
+          >
+            <span>🔔</span> Signal Alerts
+          </button>
+        </div>
+
+        <!-- Main Form -->
+        <div class="md:col-span-3 space-y-12">
+          <div class="reveal-up active" style="transition-delay: 200ms">
+            <h4 class="text-xl font-black text-charcoal mb-8 flex items-center gap-4">
+              <span class="w-1.5 h-8 bg-lime-green rounded-full"></span>
+              Core Identity Parameters
+            </h4>
+
+            <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" class="space-y-8">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <label
+                    class="block text-xs font-black text-charcoal uppercase tracking-[2px] mb-3"
+                    >Network Alias</label
+                  >
+                  <input
+                    formControlName="userName"
+                    type="text"
+                    class="input-field bg-beige/30 !border-dashed opacity-70"
+                    readonly
+                  />
+                </div>
+                <div>
+                  <label
+                    class="block text-xs font-black text-charcoal uppercase tracking-[2px] mb-3"
+                    >Frequency Address</label
+                  >
+                  <input
+                    formControlName="email"
+                    type="email"
+                    class="input-field bg-beige/30 !border-dashed opacity-70"
+                    readonly
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-black text-charcoal uppercase tracking-[2px] mb-3"
+                  >Communication Channel (Phone)</label
+                >
+                <input
+                  formControlName="Phone"
+                  type="tel"
+                  class="input-field"
+                  placeholder="+1 (555) 000-0000"
+                />
+              </div>
+
+              <div class="pt-6 flex items-center justify-end gap-6">
+                <button
+                  type="button"
+                  (click)="resetForm()"
+                  class="px-8 py-4 rounded-[0.4rem] border border-beige-accent text-charcoal/40 font-black uppercase tracking-[2px] text-xs hover:bg-beige transition-all"
+                >
+                  Discard Changes
+                </button>
+                <button
+                  type="submit"
+                  [disabled]="profileForm.invalid || isLoading"
+                  class="btn btn-primary !px-10 !py-4 shadow-xl shadow-lime-green/10"
+                >
+                  <span *ngIf="!isLoading">Sync Profile</span>
+                  <span *ngIf="isLoading" class="flex items-center gap-3">
+                    <svg class="animate-spin h-5 w-5 text-charcoal" viewBox="0 0 24 24">
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                        fill="none"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Syncing...
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Danger Zone -->
+          <div
+            class="pt-12 border-t border-beige-accent reveal-up active"
+            style="transition-delay: 300ms"
+          >
+            <h4 class="text-xl font-black text-red-600 mb-6 uppercase tracking-tight">
+              Termination Protocol
+            </h4>
+            <div
+              class="p-8 bg-red-50 rounded-large border border-red-100 flex items-center justify-between gap-10"
+            >
+              <div class="max-w-md">
+                <p class="font-black text-red-900 text-lg">Permanently Terminate Identity</p>
+                <p class="text-sm font-medium text-red-700/60 mt-2 leading-relaxed">
+                  Node deletion is irreversible. All encrypted messages, history, and records will
+                  be purged from the network frequency immediately.
+                </p>
+              </div>
+              <button
+                class="whitespace-nowrap px-8 py-4 bg-red-600 text-white rounded-[0.4rem] text-xs font-black uppercase tracking-[2px] hover:bg-red-700 transition-all shadow-lg shadow-red-600/20"
+              >
+                Purge Account
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="share-link-container">
+  <h2>🔗 Share Your Link</h2>
+  <p class="subtitle">Share your user ID to receive anonymous messages</p>
+
+  <div class="share-card">
+    <div class="share-icon">🎯</div>
+    <h3>Your User ID</h3>
+    <p class="description">Share this ID with others so they can send you anonymous messages</p>
+
+    <div class="link-box">
+      <input type="text" [value]="userId" readonly />
+      <button class="btn-copy" (click)="copyToClipboard()">📋 Copy</button>
+    </div>
+
+    <div class="instructions">
+      <h4>How to use:</h4>
+      <ol>
+        <li>Copy your User ID using the button above</li>
+        <li>Share it with friends on social media or messaging apps</li>
+        <li>They can use your ID to send you anonymous messages</li>
+        <li>Check your inbox to see the messages you receive!</li>
+      </ol>
+    </div>
+  </div>
+</div>

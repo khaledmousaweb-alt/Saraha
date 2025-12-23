@@ -1,0 +1,4 @@
+/* Navbar styles migrated to Tailwind in template */
+.nav-menu.active {
+  /* Only keeping essential logic if Tailwind is not enough for fixed/absolute toggle */
+}

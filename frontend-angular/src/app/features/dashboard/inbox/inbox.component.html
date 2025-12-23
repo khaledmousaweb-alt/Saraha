@@ -1,0 +1,25 @@
+<div class="inbox-container">
+  <h2>📥 Inbox</h2>
+  <p class="subtitle">Messages you've received</p>
+
+  <div class="loading" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading messages...</p>
+  </div>
+
+  <div class="empty-state" *ngIf="!isLoading && messages.length === 0">
+    <div class="empty-icon">📭</div>
+    <h3>No messages yet</h3>
+    <p>Share your link to start receiving anonymous messages!</p>
+  </div>
+
+  <div class="messages-grid" *ngIf="!isLoading && messages.length > 0">
+    <app-message-card
+      *ngFor="let message of messages"
+      [message]="message"
+      [showDelete]="true"
+      (delete)="onDeleteMessage($event)"
+    >
+    </app-message-card>
+  </div>
+</div>

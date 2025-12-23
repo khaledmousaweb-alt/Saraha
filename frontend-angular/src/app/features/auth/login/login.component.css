@@ -1,0 +1,119 @@
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  /* Background taken from body, or we can enforce beige */
+  width: 100%;
+}
+
+.auth-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05); /* Soft, premium shadow */
+  animation: slideUp 0.5s ease-out;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-header h1 {
+  font-size: 2rem;
+  color: var(--color-charcoal);
+  margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+  color: rgba(44, 46, 42, 0.6);
+  font-size: 1rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--color-charcoal);
+  font-size: 0.9rem;
+}
+
+/* Inputs are styled globally, but we can refine here if needed */
+
+.error-message {
+  color: var(--color-red);
+  font-size: 0.85rem;
+  margin-top: -0.25rem;
+}
+
+.error-banner {
+  background: #fde8e8; /* Light red */
+  color: var(--color-red);
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Button styles are inherited from global .btn-primary, 
+   but we ensure width is full for auth */
+.btn-primary {
+  width: 100%;
+  padding: 1rem; /* Slightly larger for auth */
+}
+
+.loading-spinner {
+  display: inline-block;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.auth-footer p {
+  font-size: 0.95rem;
+}
+
+.auth-footer a {
+  color: var(--color-green-dark);
+  font-weight: 600;
+}
+
+.auth-footer a:hover {
+  color: var(--color-green);
+  text-decoration: underline;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-card {
+    padding: 2rem;
+  }
+}
